@@ -1,4 +1,5 @@
 FastAPI Authentication System
+
 This is a simple authentication system built using FastAPI, which supports user registration, login, and logout functionalities. It interacts with a MySQL database to store user credentials, and it uses SHA-256 for password hashing (though you are encouraged to use more secure algorithms such as bcrypt for production).
 
 Features:
@@ -15,18 +16,18 @@ Uvicorn (for development server)
 MySQL (to store user data)
 Install required dependencies:
 bash
-Copy
+Copy:
 pip install fastapi uvicorn mysql-connector
 Database Setup
 Before running the application, ensure you have a MySQL database set up with the following structure:
 
 1. Create the Database:
 sql
-Copy
+Copy:
 CREATE DATABASE user_data;
 2. Create the users Table:
 sql
-Copy
+Copy:
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(255) NOT NULL,
@@ -37,19 +38,19 @@ Configuration
 In the get_db_connection() function, ensure that your MySQL credentials are set correctly (e.g., host, user, password, database).
 
 python
-Copy
+Copy:
 def get_db_connection():
     connection = mysql.connector.connect(
         host="localhost",      # Database host
         user="root",           # MySQL username
-        password="Jk@2343",    # MySQL password
+        password="your_mysql_password",    # MySQL password
         database="user_data"   # Database name
     )
     return connection
 Running the Application
 1. Run the application using uvicorn:
 bash
-Copy
+Copy:
 uvicorn main:app --reload
 The server will start at http://127.0.0.1:8000/.
 
@@ -60,28 +61,7 @@ POST /login: Accepts email and password as form data, authenticates the user, an
 POST /signup: Accepts username, email, and password as form data, creates a new user, and redirects to the login page.
 GET /welcome: Displays the welcome page after a successful login.
 GET /logout: Logs the user out and redirects them to the login page.
-Password Hashing
-In this module, we are using SHA-256 to hash passwords, but it's important to note that SHA-256 is not a recommended algorithm for password hashing due to its vulnerability to brute force attacks. In production, it's better to use secure algorithms such as bcrypt or argon2.
 
-Example of how to change to bcrypt (recommended for production):
-
-Install bcrypt:
-
-bash
-Copy
-pip install bcrypt
-Modify the password hashing logic:
-
-python
-Copy
-import bcrypt
-
-# Hash the password during signup
-hashed_password = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
-
-# Compare the entered password with the stored hash
-if bcrypt.checkpw(password.encode(), entered_password.encode()):
-    # passwords match
 Folder Structure
 Here is the basic structure of the project:
 
